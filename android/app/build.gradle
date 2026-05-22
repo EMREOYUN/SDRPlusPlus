@@ -10,12 +10,12 @@ android {
         jvmTarget = "1.8"
     }
     namespace "org.sdrpp.sdrpp"
-    compileSdkVersion 29
+    compileSdkVersion 28
     buildToolsVersion "34.0.0"
     ndkVersion "29.0.14206865"
     defaultConfig {
         applicationId "org.sdrpp.sdrpp"
-        minSdkVersion 29
+        minSdkVersion 28
         targetSdkVersion 37
         versionCode 1
         versionName "1.2.1"
