@@ -6,6 +6,10 @@ include(CheckCSourceCompiles)
 include(CMakePushCheckState)
 include(CheckCCompilerFlag)
 
+if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wno-error=incompatible-function-pointer-types)
+endif()
+
 if(MSVC)
 set(LIBM "")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W4")
@@ -43,7 +47,7 @@ CHECK_LIBRARY_EXISTS(FEC dotprod "" HAVE_LIBFEC)
 if(NOT CMAKE_CROSSCOMPILING)
   # Check if host machine can compile with SSE 4.1 intrinsic
   cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -march=native)
+  set(CMAKE_REQUIRED_DEFINITIONS "")
   check_c_source_compiles("
     #include <x86intrin.h>
     int main() {

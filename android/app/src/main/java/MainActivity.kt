@@ -85,9 +85,14 @@ class MainActivity : NativeActivity() {
 
         // Register events
         usbManager = getSystemService(Context.USB_SERVICE) as UsbManager;
-        val permissionIntent = PendingIntent.getBroadcast(this, 0, Intent(ACTION_USB_PERMISSION), 0)
+        val permissionIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            Intent(ACTION_USB_PERMISSION),
+            PendingIntent.FLAG_IMMUTABLE
+        )
         val filter = IntentFilter(ACTION_USB_PERMISSION)
-        registerReceiver(usbReceiver, filter)
+        registerReceiver(usbReceiver, filter, RECEIVER_EXPORTED)
 
         // Get permission for all USB devices
         val devList = usbManager!!.getDeviceList();
@@ -149,6 +154,7 @@ class MainActivity : NativeActivity() {
     public fun extractDir(aman: AssetManager, local: String, rsrc: String): Int {
         val flist = aman.list(rsrc);
         var ecount = 0;
+        if (flist != null) {
         for (fp in flist) {
             val lpath = local + "/" + fp;
             val rpath = rsrc + "/" + fp;
@@ -175,6 +181,7 @@ class MainActivity : NativeActivity() {
             }
 
             ecount++;
+        }
         }
         return ecount;
     }

@@ -307,8 +307,12 @@ int sdrpp_main(int argc, char* argv[]) {
     core::configManager.conf["modules"][modCount++] = "sdrpp_server_source.so";
     core::configManager.conf["modules"][modCount++] = "spyserver_source.so";
 
+
     core::configManager.conf["modules"][modCount++] = "network_sink.so";
     core::configManager.conf["modules"][modCount++] = "audio_sink.so";
+
+    // Add Tetra Demodulator for Android
+    core::configManager.conf["modules"][modCount++] = "tetra_demodulator.so";
 
     core::configManager.conf["modules"][modCount++] = "m17_decoder.so";
     core::configManager.conf["modules"][modCount++] = "meteor_demodulator.so";

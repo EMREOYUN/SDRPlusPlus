@@ -1,0 +1,3 @@
+[submodule "decoder_modules/tetra_demodulator"]
+	path = decoder_modules/tetra_demodulator
+	url = https://github.com/cropinghigh/sdrpp-tetra-demodulator.git

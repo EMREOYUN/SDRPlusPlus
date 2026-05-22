@@ -3,7 +3,7 @@ if (NOT SDRPP_CORE_ROOT)
     set(SDRPP_CORE_ROOT "@SDRPP_CORE_ROOT@")
 endif ()
 if (NOT SDRPP_MODULE_COMPILER_FLAGS)
-    set(SDRPP_MODULE_COMPILER_FLAGS @SDRPP_MODULE_COMPILER_FLAGS@)
+    set(SDRPP_MODULE_COMPILER_FLAGS "")
 endif ()
 
 # Created shared lib and link to core

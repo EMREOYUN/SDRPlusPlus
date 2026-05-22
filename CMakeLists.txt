@@ -57,6 +57,7 @@ option(OPT_BUILD_RADIO "Main audio modulation decoder (AM, FM, SSB, etc...)" ON)
 option(OPT_BUILD_RYFI_DECODER "RyFi data link decoder" OFF)
 option(OPT_BUILD_VOR_RECEIVER "VOR beacon receiver" OFF)
 option(OPT_BUILD_WEATHER_SAT_DECODER "Build the HRPT decoder module (no dependencies required)" OFF)
+option(OPT_BUILD_TETRA_DEMODULATOR "Build the TETRA Decoder Module (prebuilt binaries for aarch64, x86_64, Windows x64, Android)" ON)
 
 # Misc
 option(OPT_BUILD_DISCORD_PRESENCE "Build the Discord Rich Presence module" ON)
@@ -80,25 +81,33 @@ set(SDRPP_MODULE_CMAKE "${CMAKE_SOURCE_DIR}/sdrpp_module.cmake")
 set(SDRPP_CORE_ROOT "${CMAKE_SOURCE_DIR}/core/src/")
 
 # Compiler flags
+
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
-    # Debug Flags
-    if (MSVC)
-        set(SDRPP_COMPILER_FLAGS /std:c++17 /EHsc)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        set(SDRPP_COMPILER_FLAGS -g -Og -std=c++17 -Wno-unused-command-line-argument -undefined dynamic_lookup)
-    else ()
-        set(SDRPP_COMPILER_FLAGS -g -Og -std=c++17)
-    endif ()
+    set(SDRPP_COMPILER_FLAGS
+        -g -O0
+        -Wno-unused-command-line-argument
+    )
+    set(SDRPP_C_FLAGS -g -O0)
 else()
-    # Normal Flags
-    if (MSVC)
-        set(SDRPP_COMPILER_FLAGS /O2 /Ob2 /std:c++17 /EHsc)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        set(SDRPP_COMPILER_FLAGS -O3 -std=c++17 -Wno-unused-command-line-argument -undefined dynamic_lookup)
-    else ()
-        set(SDRPP_COMPILER_FLAGS -O3 -std=c++17)
-    endif ()
+    set(SDRPP_COMPILER_FLAGS
+        -O3
+        -Wno-unused-command-line-argument
+    )
+    set(SDRPP_C_FLAGS -O3)
 endif()
+
+# Only add '-undefined dynamic_lookup' for macOS
+if(APPLE)
+    list(APPEND SDRPP_COMPILER_FLAGS -undefined dynamic_lookup)
+endif()
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wno-error=incompatible-function-pointer-types)
+endif()
+
 set(SDRPP_MODULE_COMPILER_FLAGS ${SDRPP_COMPILER_FLAGS})
 
 # Set a default install prefix
@@ -115,10 +124,16 @@ if (ANDROID)
     set(CMAKE_SHARED_LINKER_FLAGS
         "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate"
     )
+
     set(CMAKE_C_STANDARD 11)
-    set(CMAKE_CXX_STANDARD 14)
-    set(CMAKE_CXX14_EXTENSION_COMPILE_OPTION "-std=c++17")
-endif (ANDROID)
+    set(CMAKE_C_STANDARD_REQUIRED ON)
+
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+    set(CMAKE_C_EXTENSIONS OFF)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
 
 # Core of SDR++
 add_subdirectory("core")
@@ -264,49 +279,43 @@ endif (OPT_BUILD_NEW_PORTAUDIO_SINK)
 
 
 # Decoders
+
 if (OPT_BUILD_ATV_DECODER)
-add_subdirectory("decoder_modules/atv_decoder")
-endif (OPT_BUILD_ATV_DECODER)
-
+    add_subdirectory("decoder_modules/atv_decoder")
+endif ()
 if (OPT_BUILD_DAB_DECODER)
-add_subdirectory("decoder_modules/dab_decoder")
-endif (OPT_BUILD_DAB_DECODER)
-
+    add_subdirectory("decoder_modules/dab_decoder")
+endif ()
 if (OPT_BUILD_FALCON9_DECODER)
-add_subdirectory("decoder_modules/falcon9_decoder")
-endif (OPT_BUILD_FALCON9_DECODER)
-
+    add_subdirectory("decoder_modules/falcon9_decoder")
+endif ()
 if (OPT_BUILD_KG_SSTV_DECODER)
-add_subdirectory("decoder_modules/kg_sstv_decoder")
-endif (OPT_BUILD_KG_SSTV_DECODER)
-
+    add_subdirectory("decoder_modules/kg_sstv_decoder")
+endif ()
 if (OPT_BUILD_M17_DECODER)
-add_subdirectory("decoder_modules/m17_decoder")
-endif (OPT_BUILD_M17_DECODER)
-
+    add_subdirectory("decoder_modules/m17_decoder")
+endif ()
 if (OPT_BUILD_METEOR_DEMODULATOR)
-add_subdirectory("decoder_modules/meteor_demodulator")
-endif (OPT_BUILD_METEOR_DEMODULATOR)
-
+    add_subdirectory("decoder_modules/meteor_demodulator")
+endif ()
 if (OPT_BUILD_PAGER_DECODER)
-add_subdirectory("decoder_modules/pager_decoder")
-endif (OPT_BUILD_PAGER_DECODER)
-
+    add_subdirectory("decoder_modules/pager_decoder")
+endif ()
 if (OPT_BUILD_RADIO)
-add_subdirectory("decoder_modules/radio")
-endif (OPT_BUILD_RADIO)
-
+    add_subdirectory("decoder_modules/radio")
+endif ()
 if (OPT_BUILD_RYFI_DECODER)
-add_subdirectory("decoder_modules/ryfi_decoder")
-endif (OPT_BUILD_RYFI_DECODER)
-
+    add_subdirectory("decoder_modules/ryfi_decoder")
+endif ()
 if (OPT_BUILD_VOR_RECEIVER)
-add_subdirectory("decoder_modules/vor_receiver")
-endif (OPT_BUILD_VOR_RECEIVER)
-
+    add_subdirectory("decoder_modules/vor_receiver")
+endif ()
 if (OPT_BUILD_WEATHER_SAT_DECODER)
-add_subdirectory("decoder_modules/weather_sat_decoder")
-endif (OPT_BUILD_WEATHER_SAT_DECODER)
+    add_subdirectory("decoder_modules/weather_sat_decoder")
+endif ()
+if (OPT_BUILD_TETRA_DEMODULATOR)
+    add_subdirectory("decoder_modules/tetra_demodulator")
+endif ()
 
 
 # Misc

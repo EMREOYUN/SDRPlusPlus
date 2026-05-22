@@ -10,6 +10,11 @@ SDR++ is a cross-platform and open source SDR software with the aim of being blo
 * [Reddit](https://www.reddit.com/r/sdrpp/)
 * IRC: `#sdrpp` ([libera.chat](https://libera.chat)) __**NO LONGER ACTIVE, JOIN DISCORD INSTEAD**__
 
+## Changes Made
+* Tetra Demodulator is added as submodule. Android compilations will have Tetra Demodulator.
+* Optimized for Android and ARM64 devices but it should be compiled on x86 devices too.
+* Some compiler versions are changed to build on my own system. Please make sure to check those version values and adjust for your system.
+
 ## Features
 
 * Multi VFO
@@ -343,13 +348,13 @@ Modules in beta are still included in releases for the most part but not enabled
 
 ## Sinks
 
-| Name               | Stage      | Dependencies | Option                       | Built by default| Built in Release | Enabled in SDR++ by default |
-|--------------------|------------|--------------|------------------------------|:---------------:|:----------------:|:---------------------------:|
-| android_audio_sink | Working    | -            | OPT_BUILD_ANDROID_AUDIO_SINK | ⛔              | ✅              | ✅ (Android only)          |
-| audio_sink         | Working    | rtaudio      | OPT_BUILD_AUDIO_SINK         | ✅              | ✅              | ✅                         |
-| network_sink       | Working    | -            | OPT_BUILD_NETWORK_SINK       | ✅              | ✅              | ✅                         |
-| new_portaudio_sink | Working    | portaudio    | OPT_BUILD_NEW_PORTAUDIO_SINK | ⛔              | ✅              | ⛔                         |
-| portaudio_sink     | Working    | portaudio    | OPT_BUILD_PORTAUDIO_SINK     | ⛔              | ✅              | ⛔                         |
+| Name               | Stage      | Dependencies | Option                       | Built by default  | Built in Release | Enabled in SDR++ by default |
+|--------------------|------------|--------------|------------------------------|:-----------------:|:----------------:|:---------------------------:|
+| android_audio_sink | Working    | -            | OPT_BUILD_ANDROID_AUDIO_SINK | ✅ (Android only) | ✅              | ✅ (Android only)          |
+| audio_sink         | Working    | rtaudio      | OPT_BUILD_AUDIO_SINK         | ✅                | ✅              | ✅                         |
+| network_sink       | Working    | -            | OPT_BUILD_NETWORK_SINK       | ✅                | ✅              | ✅                         |
+| new_portaudio_sink | Working    | portaudio    | OPT_BUILD_NEW_PORTAUDIO_SINK | ⛔                | ✅              | ⛔                         |
+| portaudio_sink     | Working    | portaudio    | OPT_BUILD_PORTAUDIO_SINK     | ⛔                | ✅              | ⛔                         |
 
 ## Decoders
 
@@ -364,6 +369,7 @@ Modules in beta are still included in releases for the most part but not enabled
 | pager_decoder       | Unfinished | -            | OPT_BUILD_PAGER_DECODER       | ⛔              | ⛔              | ⛔                         |
 | radio               | Working    | -            | OPT_BUILD_RADIO               | ✅              | ✅              | ✅                         |
 | radio               | Unfinished | -            | OPT_BUILD_VOR_RECEIVER        | ⛔              | ⛔              | ⛔                         |
+| tetra_demodulator   | Dependency | [Github](https://github.com/cropinghigh/sdrpp-tetra-demodulator)       | OPT_BUILD_TETRA_DEMODULATOR   | ✅              | ⛔              | ✅                         |
 | weather_sat_decoder | Unfinished | -            | OPT_BUILD_WEATHER_SAT_DECODER | ⛔              | ⛔              | ⛔                         |
 
 ## Misc

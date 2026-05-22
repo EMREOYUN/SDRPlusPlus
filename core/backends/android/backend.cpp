@@ -1,4 +1,4 @@
-#include <backend.h>log
+#include <backend.h>
 #include "android_backend.h"
 #include <core.h>
 #include <gui/gui.h>
@@ -80,7 +80,7 @@ namespace backend {
             int out_events;
             struct android_poll_source* out_data;
 
-            while (ALooper_pollAll(0, NULL, &out_events, (void**)&out_data) >= 0) {
+            while (ALooper_pollOnce(0, NULL, &out_events, (void**)&out_data) >= 0) {
                 // Process one event
                 if (out_data != NULL) { out_data->process(app, out_data); }
 
@@ -177,7 +177,7 @@ namespace backend {
             int out_events;
             struct android_poll_source* out_data;
 
-            while (ALooper_pollAll(0, NULL, &out_events, (void**)&out_data) >= 0) {
+            while (ALooper_pollOnce(0, NULL, &out_events, (void**)&out_data) >= 0) {
                 // Process one event
                 if (out_data != NULL) { out_data->process(app, out_data); }
 
